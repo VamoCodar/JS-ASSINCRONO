@@ -42,14 +42,13 @@
             padding: 0 15px;
             border: 1px solid rgba(0, 0, 0, 0.267);
             margin: 0;
-
+            border-radius: 4px;
         }
 
         input:hover {
             -webkit-appearance: none;
             appearance: none;
             -moz-appearance: textfield;
-            border-radius: 4px;
             display: inline-block;
         }
 
@@ -87,14 +86,31 @@
         }
 
         ul {
-            display: flex;
+            display: none;
             flex-direction: column;
             min-height: 200px;
         }
 
-        li.ativo {
+        ul.ativo {
+            display: flex;
+
+        }
+
+        li {
             display: inline-flex;
             gap: 10px;
+        }
+
+        div p {
+            display: none;
+        }
+
+        div.carregando p {
+            display: block;
+        }
+
+        section {
+            min-height: 200px;
         }
     </style>
 
@@ -104,6 +120,7 @@
 
             <input type="number" value="">
             <button>Buscar</button>
+            <p>Carregando</p>
         </div>
 
         <section class="mt-2 text-center  d-flex ">
@@ -130,41 +147,57 @@
     <script>
         const input = document.querySelector("input")
         const botao = document.querySelector("button")
+        input.addEventListener("keypress", verificaSeEEnter)
+        botao.addEventListener("click", retornaCEP)
 
-        // input.addEventListener("focusout", retornaCEP)
-        input.addEventListener("click", retornaCEP)
+
+        //elementos
+        const lista = document.querySelector("ul")
+        const estado = lista.querySelector(".estado p")
+        const bairro = lista.querySelector(".bairro p")
+        const rua = lista.querySelector(".rua p")
+        const cidade = lista.querySelector(".cidade p")
+
+        function verificaSeEEnter(event) {
+            console.log(event.key);
+            if (event.key === "Enter")
+                retornaCEP()
+        }
+
 
         function retornaCEP() {
-            let valorInput = this.value
-            const API = fetch(`https://viacep.com.br/ws/${valorInput}/json/`)
+            let valorInput = input.value
+            input.parentElement.classList.add("carregando")
+            const API = fetch(`https://viacep.com.br/ws/${valorInput}/json`)
 
             API
                 .then((response) => response.json())
                 .then((content) => {
-                    this.classList.remove("erro")
-                    console.log(content);
+                    input.parentElement.classList.remove("carregando")
+                    input.classList.remove("erro")
 
-                    const lista = document.querySelector("ul")
+                    console.log(content.erro);
 
-                    const estado = lista.querySelector(".estado p")
-                    estado.parentElement.classList.add("ativo")
-                    estado.innerText = content.uf
+                    if (content.erro !== true) {
+                        lista.classList.add("ativo")
 
-                    const bairro = lista.querySelector(".bairro p")
-                    bairro.parentElement.classList.add("ativo")
-                    bairro.innerText = content.bairro
+                        estado.innerText = content.uf
+                        bairro.innerText = content.bairro
+                        rua.innerText = content.logradouro
+                        cidade.innerText = content.localidade
 
-                    const rua = lista.querySelector(".rua p")
-                    rua.parentElement.classList.add("ativo")
-                    rua.innerText = content.logradouro
+                    } else
+                        lista.classList.remove("ativo")
 
-                    const cidade = lista.querySelector(".cidade p")
-                    cidade.parentElement.classList.add("ativo")
-                    cidade.innerText = content.localidade
+
+
 
                 })
                 .catch(rejeitada => {
-                    this.classList.add("erro")
+
+
+                    input.parentElement.classList.remove("carregando")
+                    input.classList.add("erro")
 
                 })
 
