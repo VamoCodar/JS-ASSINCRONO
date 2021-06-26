@@ -27,7 +27,8 @@
         doc
             .then(resolucao => {
                 return resolucao.text()
-            }).then((body) => {
+            })
+            .then((body) => {
                 console.log(body);
                 conteudo.innerText = body
             })

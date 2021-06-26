@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API</title>
+</head>
+
+<body>
+
+    <div class="conteudo"></div>
+    <img src="" alt="">
+
+    <script>
+        // .CLONE() 
+        //metodo de response
+        // Ao utilizarmos os métodos acima, text, json e blob,
+        //  a resposta é modificada.Por isso existe o método clone,
+        // caso você necessite transformar uma resposta em diferentes valores.
+
+        const cep = fetch("https://viacep.com.br/ws/32025030/json/")
+        cep
+            .then(response => {
+                const responseClonada = response.clone()
+                //clonar a reponsta para poder fazer mais de uma coisa com ela
+                //pois quando a  reponsta foi modificada, nao pode fazer outra coisa
+
+                response.text().then((text) => {
+                    console.log(text);
+                })
+                responseClonada.json().then((json) => {
+                    console.log(json);
+                })
+            })
+    </script>
+</body>
+
+</html>

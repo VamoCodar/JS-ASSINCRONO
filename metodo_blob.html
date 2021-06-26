@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API</title>
+</head>
+
+<body>
+
+    <div class="conteudo"></div>
+    <img src="" alt="">
+
+    <script>
+        // .BLOB()
+        // Um blob é um tipo de objeto utilizado para 
+        // representação de dados de um arquivo
+        // .O blob pode ser utilizado para transformarmos 
+        // requisições de imagens por exemplo. O blob gera um URL único.
+
+        const div = document.createElement("div")
+        const imagem = fetch("./test/Code_ltQ9M83A35.png")
+
+        imagem
+            .then(r => r.blob())
+            .then((body) => {
+                const blobUrl = URL.createObjectURL(body)
+                const imagemDom = document.querySelector("img")
+                imagemDom.src = blobUrl
+
+
+            })
+    </script>
+</body>
+
+</html>

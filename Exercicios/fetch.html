@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap-grid.min.css"
+        integrity="sha512-LLxZHu50SXdFJdAzHmDJAoLaozhTB4BYZPoN+xdTRjiPmPhI+1mEJXdoHHiDWmd/jj/9x10pkd8mYGG9sqfPPA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+</head>
+
+<body>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            outline: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            height: 100vh;
+            width: 100%;
+            display: grid;
+            place-items: center;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        input {
+            -webkit-appearance: none;
+            appearance: none;
+            -moz-appearance: textfield;
+            height: 35px;
+            padding: 0 15px;
+            border: 1px solid rgba(0, 0, 0, 0.267);
+            margin: 0;
+
+        }
+
+        input:hover {
+            -webkit-appearance: none;
+            appearance: none;
+            -moz-appearance: textfield;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+
+        }
+
+        input.erro {
+            border: 1px solid red;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            background: wheat;
+            height: 35px;
+            padding: 0 20px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 4px;
+
+        }
+
+        button:hover {
+            background: rgb(216, 186, 130);
+        }
+
+        li {
+            display: none;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
+        }
+
+        li.ativo {
+            display: inline-flex;
+            gap: 10px;
+        }
+    </style>
+
+    <main>
+        <h4 class="mb-2">Digite o seu cep</h4>
+        <div>
+
+            <input type="number" value="">
+            <button>Buscar</button>
+        </div>
+
+        <section class="mt-2 text-center  d-flex ">
+
+            <ul>
+                <li class="estado my-2 "><strong>Estado:</strong>
+                    <p></p>
+                </li>
+                <li class="bairro my-2"><strong>Bairro:</strong>
+                    <p></p>
+                </li>
+                <li class="cidade my-2"> <strong>Cidade:</strong>
+                    <p></p>
+                </li>
+                <li class="rua my-2"> <strong>Rua:</strong>
+                    <p></p>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+
+
+    <script>
+        const input = document.querySelector("input")
+        const botao = document.querySelector("button")
+
+        // input.addEventListener("focusout", retornaCEP)
+        input.addEventListener("click", retornaCEP)
+
+        function retornaCEP() {
+            let valorInput = this.value
+            const API = fetch(`https://viacep.com.br/ws/${valorInput}/json/`)
+
+            API
+                .then((response) => response.json())
+                .then((content) => {
+                    this.classList.remove("erro")
+                    console.log(content);
+
+                    const lista = document.querySelector("ul")
+
+                    const estado = lista.querySelector(".estado p")
+                    estado.parentElement.classList.add("ativo")
+                    estado.innerText = content.uf
+
+                    const bairro = lista.querySelector(".bairro p")
+                    bairro.parentElement.classList.add("ativo")
+                    bairro.innerText = content.bairro
+
+                    const rua = lista.querySelector(".rua p")
+                    rua.parentElement.classList.add("ativo")
+                    rua.innerText = content.logradouro
+
+                    const cidade = lista.querySelector(".cidade p")
+                    cidade.parentElement.classList.add("ativo")
+                    cidade.innerText = content.localidade
+
+                })
+                .catch(rejeitada => {
+                    this.classList.add("erro")
+
+                })
+
+        }
+
+        // Utilizando a API https://viacep.com.br/ws/${CEP}/json/
+        // crie um formulário onde o usuário pode digitar o cep
+        // e o endereço completo é retornado ao clicar em buscar
+
+        // Utilizando a API https://blockchain.info/ticker
+        // retorne no DOM o valor de compra da bitcoin and reais.
+        // atualize este valor a cada 30s
+
+        // Utilizando a API https://api.chucknorris.io/jokes/random
+        // retorne uma piada randomica do chucknorris, toda vez que
+        // clicar em próxima
+    </script>
+
+
+
+</body>
+
+</html>
