@@ -176,7 +176,6 @@
                     input.parentElement.classList.remove("carregando")
                     input.classList.remove("erro")
 
-                    console.log(content.erro);
 
                     if (content.erro !== true) {
                         lista.classList.add("ativo")
@@ -188,13 +187,9 @@
 
                     } else
                         lista.classList.remove("ativo")
-
-
-
-
                 })
                 .catch(rejeitada => {
-
+                    lista.classList.remove("ativo")
 
                     input.parentElement.classList.remove("carregando")
                     input.classList.add("erro")
