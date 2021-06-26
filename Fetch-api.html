@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API</title>
+</head>
+
+<body>
+
+    <div class="conteudo"></div>
+
+
+    <script>
+        // FETCH API
+        // Permite fazermos requisições HTTP através do método fetch().
+        // Este método retorna a resolução de uma Promise
+        // Podemos então utilizar o then para interagirmos com a resposta,
+        // que é um objeto do tipo Response.
+
+        const doc = fetch("./test/doc.txt")
+        const conteudo = document.querySelector(".conteudo")
+
+
+        doc
+            .then(resolucao => {
+                return resolucao.text()
+            }).then((body) => {
+                console.log(body);
+                conteudo.innerText = body
+            })
+
+        // doc.then(resolucao => {
+        //     resolucao.text().then((body) => {
+        //         console.log(body);
+        //     })
+        // })
+
+
+        // retorna agora um objeto
+        /* Response {type: "basic", url: "http://127.0.0.1:5500/doc.txt", redirected: false, status: 200, ok: true, …}
+        body: ReadableStream
+        bodyUsed: false
+        headers: Headers {}
+        ok: true
+        redirected: false
+        status: 200
+        statusText: "OK"
+        type: "basic"
+        url: "http://127.0.0.1:5500/doc.txt"
+        __proto__: Response */
+    </script>
+</body>
+
+</html>

@@ -9,10 +9,38 @@
 </head>
 
 <body>
-
-
     <script>
-       
+        const login = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve("usuario Logado")
+            }, 1000)
+        })
+
+
+        const dados = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve("Dados carregados")
+            }, 1500)
+        })
+
+        //PROMISE.ALL()
+        // Retornará uma nova promise assim que TODAS as promises dentro dela forem resolvidas ou pelo menos uma rejeitada. A reposta é uma array com as respostas de cada promise.
+        const carregouTudo = Promise.all([login, dados])
+
+        //como retorna uma  promisse é possivel fazer outro then nela 
+        carregouTudo.then((resolucao) => {
+            console.log(resolucao); // ["usuario Logado", "Dados carregados"]
+
+        })
+
+        // PROMISE.RACE()
+        // Retornará uma nova promise assim que a primeira promise
+        // for resolvida ou rejeitada.
+        // Essa nova promise terá a resposta da primeira resolvida.
+        const carregouPrimeiro = Promise.race([login, dados]);
+        carregouPrimeiro.then(resposta => {
+            console.log(resposta); // Login Efetuado
+        });
     </script>
 </body>
 
