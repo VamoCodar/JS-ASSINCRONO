@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        // As promises não fazem sentido quando o código executado dentro da mesma é apenas código síncrono. O
+        //poder está na execução de código assíncrono que executará o resolve() ao final dele.
+
+        const promesa = new Promise((resolve, reject) => {
+            //geralmente temos uma condicao para verificar
+            let condicao = false
+            if (condicao) {
+                setTimeout(() => {
+                    resolve({
+                        adriano: "cabeludo",
+                        idade: "23",
+                    })
+                }, 1000)
+            } else {
+                reject(Error("Um erro rolou"))
+            }
+
+
+
+        })
+
+        //.then é um metodo do prototipo da promisse que só acontece
+        //caso a promise seja resolvida
+        const retorno = promesa.then(function (resolucao) {
+
+                resolucao.profissao = "desenvolvedor"
+                return resolucao
+            })
+
+            .then(resolucao => {
+                console.log(resolucao);
+            })
+
+            .catch(rejeitada => {
+                console.log(rejeitada);
+            })
+
+            .finally((teste) => {
+                console.log("Acabou");
+            })
+
+        console.log(retorno);
+
+        //pode se encadear varios .then
+        //onde o valr do proximo parametro é oq vc retornar do then anterior
+
+        //  .catch 
+        //para quando a Promise é rejeitada
+        //tbm pode ser encadeado
+
+        // .then pode receber como segundo argumento um * erro *
+        /* 
+        exemplo
+         .then(resolucao => {
+                console.log(resolucao);
+            }, rejeitada => {
+            console.log(rejeitada)
+            })
+        */
+
+
+        //.finally  
+        //executa a acão assim que a função acabar
+        // sempre é executado, independende de erro ou acerto
+    </script>
+</body>
+
+</html>
