@@ -17,6 +17,74 @@
 </head>
 
 <body>
+    <div>
+        <p class="mb-1">Atualizara em <span>5</span>s</p>
+        <h2 class="bitcoin">Valor compra Bitcoin em Reais = <span></span></h2>
+    </div>
+
+    <script>
+        // Utilizando a API https://blockchain.info/ticker
+        // retorne no DOM o valor de compra da bitcoin and reais.
+        // atualize este valor a cada 30s
+
+
+        const bitcoin = document.querySelector(".bitcoin span")
+        const tempo = document.querySelector("div p span")
+
+        let count = 5
+        iniciou = false
+
+        function retornaBitcoin() {
+            const API = fetch(`https://blockchain.info/ticker`)
+
+            API
+                .then((response) => response.json())
+                .then((body) => {
+
+                    let valor = body.BRL.buy
+                    let valorLimpo = valor.toLocaleString('pt-br', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    });
+
+                    bitcoin.innerText = valorLimpo
+
+                })
+                .catch(rejeitada => {
+                    alert("Ocorreu um erro")
+                })
+                .finally((teste) => {
+                    intervalo()
+                })
+
+
+        }
+
+        function intervalo() {
+            let count = 5
+            window.setInterval(() => {
+
+                if (count !== 0) {
+                    tempo.innerText = count
+                    count--
+                } else {
+                    window.clearInterval()
+                }
+            }, 1000);
+
+
+            bitcoin.setAttribute("style",
+                "animation: de .4s ease-out both .2;")
+            setTimeout(() => bitcoin.removeAttribute("style"), 600);
+        }
+
+        retornaBitcoin()
+
+        //intervalo de atualização
+        setInterval(() => {
+            retornaBitcoin()
+        }, 5100);
+    </script>
 
     <style>
         * {
@@ -38,78 +106,30 @@
         h1 {
             min-width: 300px;
             min-height: 100px;
+
+        }
+
+        span {
+            transition: all .3s ease;
+            background: rgba(0, 0, 0, 0);
+            padding: 5px;
+            border-radius: 4px;
+            display: inline-block;
+            color: rgb(11, 170, 11);
+        }
+
+
+
+        @keyframes de {
+            30% {
+                opacity: .5;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
     </style>
-
-    <div>
-        <p class="mb-1">Atualizara em <span>5</span>s</p>
-        <h2 class="bitcoin">Valor compra Bitcoin em Reais = <span></span></h2>
-    </div>
-
-    <script>
-        // Utilizando a API https://blockchain.info/ticker
-        // retorne no DOM o valor de compra da bitcoin and reais.
-        // atualize este valor a cada 30s
-
-
-        const bitcoin = document.querySelector(".bitcoin span")
-        const tempo = document.querySelector("div p span")
-
-        let count = 5
-        iniciou = false
-
-        function retornaBitcoin() {
-
-
-            const API = fetch(`https://blockchain.info/ticker`)
-
-            API
-                .then((response) => response.json())
-                .then((content) => {
-
-                    let valor = content.BRL.buy
-                    let valorLimpo = valor.toLocaleString('pt-br', {
-                        style: 'currency',
-                        currency: 'BRL'
-                    });
-
-                    console.log(content.BRL.buy);
-                    bitcoin.innerText = valorLimpo
-
-                })
-                .catch(rejeitada => {
-
-                })
-                .finally((teste) => {
-                    intervalo()
-                })
-
-
-        }
-
-        function intervalo() {
-            let count = 5
-            window.setInterval(() => {
-                if (count !== 0) {
-                    tempo.innerText = count
-                    count--
-                } else {
-                    window.clearInterval()
-                }
-            }, 1000);
-        }
-
-
-
-
-
-        retornaBitcoin()
-        setInterval(() => {
-            retornaBitcoin()
-        }, 5000);
-    </script>
-
-
 
 </body>
 
